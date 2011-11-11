@@ -1,0 +1,94 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+#{set 'moreScripts'}
+  <script src="@{'/public/scripts/models.coffee'}" type="text/javascript"></script>
+  <script src="@{'/public/scripts/views.coffee'}" type="text/javascript"></script>
+#{/set}
+#{include 'templates.html' /}
+
+#{coffee.inline}
+
+# Wrap in domReady event
+$ ->
+
+  # Our main app, glue everything together
+  class ExpensesApp extends Backbone.Router
+    
+    initialize: ->
+    
+      # Create a 'home' view, populated with the current content of #main
+      @el = $ '#main'
+      @homeView = new window.HomeView @el.children()
+      
+      # Create a collection of claims
+      @claims = new window.ClaimsCollection()
+      
+      # Load claims from the server.
+      @claims.fetch
+        success: =>
+          # Start Backbone routing.
+          # We only want to do this after a successful fetch,
+          # because the 'updateClaim' route won't work if the 
+          # claim is not loaded yet.
+          Backbone.history.start()
+      
+    # Define the routes in this application.
+    routes: 
+      ""             : "index"
+      "/claims"      : "listClaims"
+      "/claims/new"  : "createClaim"
+      "/claims/:id"  : "updateClaim"
+  
+    # Show the home page
+    index: =>
+      @el.empty()
+      @el.append(@homeView.render().el)
+      
+    # Show the page that lists the claims
+    listClaims: =>
+      @el.empty()
+      view = new ClaimListView model: @claims
+      @el.append view.render().el
+      
+    # Show the page to create a claim
+    createClaim: =>
+      @el.empty()
+      claim = new Claim
+      claimCreateUpdateView = new ClaimCreateUpdateView model: claim, claims: @claims
+      @el.append claimCreateUpdateView.render().el
+      
+    # Show the page to update a claim
+    updateClaim: (id) => 
+      @el.empty()
+      claim = @claims.get(id)
+      claimCreateUpdateView = new ClaimCreateUpdateView model: claim, claims: @claims  
+      @el.append claimCreateUpdateView.render().el
+  
+  # Gentlement, start your engines!
+  window.app = new ExpensesApp
+
+#{/coffee.inline}
+
+
+
+<header>
+  <div class="logo">Expenses - with Coffeescript and Backbone.js</div>
+</header>
+
+<nav>
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#/claims">Claims</a></li>
+    <li><a href="#/claims/new">New Claim</a></li>
+  </ul>
+</nav>
+
+<article class="content">
+  <hgroup>
+    <h1>Expenses - Get stuff for free!</h1>
+    <h5>Styled by Egor's FE-Patterns</h5>
+  </hgroup>
+  <section id="main">
+    <p>This is a demo application to introduce you to both Coffeescript and Backbone.js. It's not fully functional - we're focussing on the things that are important when you're starting with Backbone.</p>
+  </section>
+</div>

@@ -1,0 +1,312 @@
+= Modern Frontends with Coffeescript and Backbone
+:title: Modern Frontends with Coffeescript and Backbone
+:description: A short course on building a modern web frontend with Coffeescript and Backbone
+:keywords: web, frontend, coffeescript, javascript, backbone, html5, course, tutorial
+:Author:  Erik Bakker
+:Author Initials: EB
+:Date: October, 2011
+:Email: erik.bakker@lunatech.com
+
+== Outline
+
+* Quick introduction
+* Coffeescript
+* Backbone
+* Excercises
+
+== Introduction
+
+* Why we need anything
+* What we need
+* Issues of Javascript
+* Solution of Coffeescript
+
+=== Why we need anything
+
+* First, the web consisted of *pages*
+* Then, Javascript enhanced the *pages*
+* Apps came up, with most logic on the *server*
+* Now, more and more is done on the *client*
+* The browser no longer holds *pages*, but an *app*
+
+ifdef::backend-slidy2[<<<]
+
+* We're using *frameworks* on the server
+* But not on the client
+
+Q: But isn't JQuery a framework?
+
+A: Not really, it's a fantastic tool for enhancement of *pages*, but doesn't structure your *app*
+
+=== What we need
+
+A framework on the browser to help us
+
+* Structure our app
+* Give us tools to interact with our server
+
+And that
+
+* Integrates nicely with JQuery
+
+Answer:
+*Backbone.js*
+
+=== What else we want
+
+We want to improve Javascript
+
+==== About Javascript
+
+* Evented / asynchronous
+** User interaction as events
+** Non-blocking IO with callbacks
+* Prototype inheritance
+* Lambda functions everywhere
+
+==== Issues
+
+* Verbosity
+* Function binding
+* Inheritance
+
+===== Solution: Coffeescript
+
+* Indentation based structure
+* Extremely concise lambda's
+* Sane inheritance model
+* Compiles to Javascript
+
+==== Example
+
+[source,javascript]
+---------------------------------
+var worker = {
+    performWork: function(onDone) {
+        // Do some work, and then...
+        onDone();
+    }
+}
+
+var user = {
+    name: "Erik",
+    run: function() {
+        worker.performWork(function() {
+            console.info(this.name + " is done!")
+        })
+    }
+}
+
+user.run()
+---------------------------------
+
+==== Solution: Coffeescript
+
+[source,coffeescript]
+---------------------------------
+worker =
+  performWork: (onDone) -> 
+    # Do some work, and then...
+    onDone()
+
+user = 
+  name: "Erik"
+  run: ->
+    worker.performWork => 
+      console.info this.name + " is done!"
+ 
+user.run()
+---------------------------------
+
+== Coffeescript tutorial
+
+=== Assignment
+no 'var' necessary
+
+[source,coffeescript]
+x = 3
+y = "foo"
+
+Compiles to
+[source,javascript]
+var x, y;
+x = 3;
+y = "foo";
+
+=== Function definition
+
+Named functions
+[source,coffeescript]
+square = (x) -> x * x
+plus = (x, y) -> x + y
+
+Compiles to
+[source,javascript]
+var square, plus;
+square = function(x) {
+  return x * x;
+};
+plus = function(x, y) {
+  return x + y;
+};
+
+Note that last expression of a function is automatically returned
+
+ifdef::backend-slidy2[<<<]
+
+Function without params
+[source,coffeescript]
+paramless = -> console.info "blah"
+
+Compiles to
+[source,javascript]
+var paramless;
+paramless = function() {
+  console.info("blah");
+};
+
+ifdef::backend-slidy2[<<<]
+
+Lambda function
+[source,coffeescript]
+(x) -> x * x
+
+Compiles to 
+[source,javascript]
+(function(x) {
+  return x * x;
+});
+
+=== Function invocation
+
+No parentheses, no semicolon
+
+[source,coffeescript]
+console.info "Hi!"
+
+Compiles to
+[source,javascript]
+console.info("Hi!");
+
+Multiple parameter
+[source,coffeescript]
+console.info "Param" + "1", param2
+
+Compiles to
+[source,javascript]
+console.info("Param" + "1", param2);
+
+=== Objects
+
+[source,coffeescript]
+settings =
+  name: "Coffee"
+  sugar: false
+  milk: false
+
+Compiles to
+[source,javascript]
+settings = {
+  name: "Coffee",
+  sugar: false,
+  milk: false
+}
+
+=== Binding & this
+
+Use *@* as shorthand for *this.*
+
+Use *=>* instead of *->* to wrap method in a function that preserves 'this' reference.
+
+=== More
+
+* Coffeescript website
+* Cheat sheet
+
+== Extremely short Backbone.js tutorial
+
+=== Introduction
+
+* What is backbone.js
+* Core concepts
+** Models
+** Views
+** Router
+* Risks
+
+=== What is backbone.js
+
+Backbone supplies structure to JavaScript-heavy applications by providing models with key-value binding and custom events, collections with a rich API of enumerable functions, views with declarative event handling, and connects it all to your existing application over a RESTful JSON interface.
+
+=== It what? ===
+
+* It supplies structure (but not so much)
+* Helps you manage your data
+* Needs other tools to: 
+** Work (underscore.js)
+** Manipulate the DOM (jQuery)
+** Render a template (any template engine)
+
+=== Core concepts
+
+Backbone has three core concepts
+
+* Models
+** Contain business logic
+* Views
+** Contain view logic
+* Router
+** Provides routing and controller methods
+
+=== More core concepts
+
+* Events
+** Views respond to events
+** Users interacting with a view generate events
+** But models can also generate events
+
+=== Models
+
+* Extend Backbone.Model
+* Contain the business logic
+* Can be grouped in Backbone.Collection's
+
+=== Views
+
+* Extend Backbone.View
+* Know how to draw the model
+* Usually have a reference to the model
+* Listen to and generate events
+* Are often nested
+
+=== Router
+
+* Central component
+* Wires urls to actions
+
+=== Risks & rewards
+
+* Backbone is hard to learn
+* Backbone doesn't really guide you
+* Backbone doesn't do much
+* Backbone is hard to debug
+* Backbone helps your javascript scale
+* Backbone is still nice
+
+=== Action time! 
+
+In the github repository, there is an example Play application, with a Backbone and coffeescript frontend.
+
+=== Exercises 
+
+Running the sample app:
+
+* $ play dependencies
+* $ play run
+
+Skim through the sources:
+
+* models.coffee
+* views.coffee
+* templates.html
+* index.html

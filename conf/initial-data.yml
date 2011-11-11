@@ -1,0 +1,19 @@
+Claim(january):
+  claimDate: 2011-02-03
+  startDate: 2011-01-01
+  endDate: 2011-01-31
+  accountNumber: 123454321
+  accountName: E.R.A. Bakker  
+
+Line(first):
+  claim: january
+  date: 2011-01-17
+  description: "Just stuff"
+  amountExVat: 10
+  vat: 1
+  amountIncVat: 11
+
+Line(second):
+  claim: january
+  date: 2011-01-18
+  description: "Train ticket"

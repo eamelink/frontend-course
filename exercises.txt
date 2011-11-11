@@ -1,0 +1,28 @@
+Exercises
+=========
+
+1. Show the total amount of the claim
+-------------------------------------
+In the details page for a claim, show the total amount of that claims. Make it update live when you enter stuff in lines. 
+
+Hints:
+ * Add a method to the Claim model that calculates the total
+ * Show the value of that method in the claimCreateUpdateView-template (templates.html)
+ * Make the ClaimCreateUpdateView class listen to suitable events, and call @render on those events.
+   
+2. Show the total amount of all claims on every page
+----------------------------------------------------
+Show the total amount of all saved claims on every page. 
+
+Hints:
+ * Add a method to the ClaimsCollection class that calculates the total
+ * Add an html element where you want to put the amount to the main view (main.html)
+ * Define a new view, make the 'el' property refer to the html element. 
+ * Instantiate it in the ExpensesApp class, give it a reference to the claims list.
+ * Have it listen to the proper events and call @render
+ * In render, update the element text 
+ 
+ 
+3. Give a warning if a claimline is outside the range of the claim
+4. Make price inc vat fill in automatically after filling in price and vat
+5. Make a new claim use last months start and end date by default

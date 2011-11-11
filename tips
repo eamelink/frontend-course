@@ -1,0 +1,3 @@
+Don't forget to put 'class' in front of a Coffeescript class
+Don't forget to return 'this' from the render method of a view
+If you add a 'model' to the constructor of a view, it's automatically available as @model in that view

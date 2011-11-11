@@ -1,0 +1,92 @@
+<!--  This file defines all the templates we use -->
+<script type="text/html" id="claimList-template">
+<h1>Claims</h1>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Claim Date</th>
+      <th>Start</th>
+      <th>End</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+</script>
+
+<!-- 
+Here we populate the template with @model.toJSON(), so all the model
+fields are immediately available
+ -->
+<script type="text/html" id="claimListElement-template">
+  <td><%= id %></td>
+  <td><%= claimDate %></td>
+  <td><%= startDate %></td>
+  <td><%= endDate %></td>
+  <td><span class="update">update</span> - <span class="delete">delete</span></td>
+</script>
+
+<!-- 
+Here we populate the template with the model itself, so we have to call
+claim.get("field") to get a field. 
+We use claim.escape("field") here to get it html-escaped.
+ -->
+<script type="text/hmtl" id="claimCreateUpdateView-template">
+<h1></h1>
+  <fieldset id="claimFields">
+    <div>
+      <label>Claim date</label>
+      <input type="text" class="date" id="claimDate" value="<%= claim.escape("claimDate") %>" />
+    </div>
+
+    <div>
+      <label>Start date</label>
+      <input type="text" class="date" id="startDate" value="<%= claim.escape("startDate") %>" />
+    </div>
+    
+    <div>
+      <label>End date</label>
+      <input type="text" class="date" id="endDate" value="<%= claim.escape("endDate") %>" />
+    </div>
+    
+    <div>
+      <label>Account name</label>
+      <input type="text" id="accountName" value="<%= claim.escape("accountName") %>" />
+    </div>
+
+    <div>
+      <label>Account number</label>
+      <input type="text" id="accountNumber" value="<%= claim.escape("accountNumber") %>" />
+    </div>
+  </fieldset>
+
+  <h2>Expense lines</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Amount ex VAT</th>
+        <th>VAT</th>
+        <th>Total</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+<div class="buttons">
+  <button id="add">Add Line</button>
+  <button id="save">Save</button>
+</div>
+</script>
+
+<script type="text/html" id="claimLineCreateUpdate-template">
+  <td><input type="text" class="date" name="date" value="<%= line.escape("date") %>" /></td>
+  <td><input type="text" class="amount" name="amountExVat" value="<%= line.escape("amountExVat") %>" /></td>
+  <td><input type="text" class="amount" name="vat" value="<%= line.escape("vat") %>" /></td>
+  <td><input type="text" class="amount" name="amountIncVat" value="<%= line.escape("amountIncVat") %>" /></td>
+  <td><input type="text" class="description" name="description" value="<%= line.escape("description") %>" /></td>
+</script>

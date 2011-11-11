@@ -1,0 +1,2 @@
+asciidoc --attribute pygments --backend slidy2 -o course.html course.txt
+
